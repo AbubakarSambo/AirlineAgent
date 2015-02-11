@@ -294,6 +294,11 @@ public class JetAgent {
 
     }
 
+
+
+    //This method is similar to the other method that searches for the most valuable airline.
+    // the only difference is that this method loops though the destinationindex 2d arraylist
+
     public static String searchMostValuableAirlineByIndex(ArrayList<ArrayList<JetRecord>> destinationIndex) {
         String ans = null;
         String[] airlines = new String[destinationIndex.size()];
@@ -316,9 +321,7 @@ public class JetAgent {
                         count[i]++;
 
                     }
-
                 }
-
             }
         }
         ans = airlines[0];
@@ -328,43 +331,11 @@ public class JetAgent {
 
                 ans = airlines[i];
             }
-
-
         }
-
-
         return ans;
-
     }
 
 
-    public void addJetRecordToDestinationIndexNew(JetRecord record) {
-
-        boolean destinationFound = false;
-        if (destinationIndex.size() == 0) {
-            destinationIndex.add(new ArrayList<JetRecord>());
-
-            destinationIndex.get(0).add(record);
-        } else
-            for (int i = 0; i < destinationIndex.size(); i++) {
-
-                if (record.getDestination().equals(destinationIndex.get(i).get(0).getDestination())) {
-
-                    destinationIndex.get(i).add(record);
-                    destinationFound = true;
-
-                }
-
-                if (!destinationFound) {
-                    destinationIndex.add(new ArrayList<JetRecord>());
-                    destinationIndex.get(destinationIndex.size() - 1).add(record);
-
-
-                }
-            }
-
-
-    }
 
 
 }
