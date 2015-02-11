@@ -22,7 +22,6 @@ public class JetAgent {
         destinationIndex = new ArrayList<ArrayList<JetRecord>>(MAX_DESTINTATION);
     }
 
-    //add methods
 
     public static void main(String[] args) {
 
@@ -88,7 +87,8 @@ public class JetAgent {
     //to a JetAgent property arraylist and updates
     //an array containing all destination.
     // if the destination contained in the record has been previously added(hence exists in the destinations array),
-    // the method increases the count
+    // the method increases the count of that particular destination, else it creates a new destination and puts
+    //in the array.
     public void addJetRecord(JetRecord record) {
         this.jetRentals.add(record);
 
@@ -111,13 +111,17 @@ public class JetAgent {
 
     }
 
+
+    // The delete record method removes the particular record we want deleted
+    //by looking for the particular airline and destination combination given to it.
+    // it updates the destination array by decrementing the count for any destination that has been deleted
     public void deleteJetRecord(String airline, String destination) {
         int dcount = 0; //how many records are deleted that are of the same destination
         for (int i = 0; i < jetRentals.size(); i++) {
             if (jetRentals.get(i).getDestination().equals(destination) && jetRentals.get(i).getAirline().equals(airline)) {
                 this.jetRentals.remove(i);
                 dcount++;
-                i--;
+                i--; //because the remove method shifts the remaining elements to the left, we decrease i
             }
         }
         for (int i = 0; i < destinations.length && destinations[i] != null; i++) {
@@ -130,10 +134,14 @@ public class JetAgent {
         }
     }
 
+
+    // this method returns a jet record object that is the cheapest record in the list it is given
+    // It does this by looping through the whole list and comparing the prices associated with all records
+    // and returns the smallest
     public static JetRecord searchCheapestJetsByDestination(ArrayList<JetRecord> list, String destination) {
 
-        JetRecord smallest_price = list.get(0);
-        int count = 0;
+        JetRecord smallest_price = list.get(0); // initialize the first record to be the smallest
+        int count = 0; // tells us if the list of records matches the destination given 1 or more times
         if (list.get(0).getDestination().equals(destination)) {
 
             count++;
@@ -153,7 +161,7 @@ public class JetAgent {
         }
 
         if (count == 0) {
-
+            //if we get in here then the destination did not match any destination in the list and we return null
             smallest_price = null;
         }
         //System.out.println(count);
@@ -162,31 +170,29 @@ public class JetAgent {
     }
 
 
+    //This method, slightly different from the previous method
+    // also finds the cheapest jet, but takes as input only a list of records.
+    // The method uses recursion to find the cheapest jet
     public static JetRecord searchCheapestJet(ArrayList<JetRecord> list) {
-        //System.out.println(list.size());
+
         JetRecord ans = null;
 
         if (list.size() == 1) {
-            System.out.println("=1");
+
             ans = list.get(0);
 
         }
 
-        if (list.size() == 2) {
+       else if (list.size() == 2) {
             JetRecord temp = null;
             if (list.get(0).getRentalPrice() < list.get(1).getRentalPrice()) {
                 ans = list.get(0);
-                //    temp = list.remove(1);
-                System.out.println(" =2 ");
-
 
             } else ans = list.get(1);
-
-
         }
 
 
-        if (list.size() > 2) {
+        else if (list.size() > 2) {
             JetRecord temp = null;
             temp = list.remove(0);
 
@@ -194,7 +200,7 @@ public class JetAgent {
 
                 ans = temp;
             } else ans = searchCheapestJet(list);
-            list.add(0, temp);
+            list.add(0, temp); // This step is necessary because an arraylist remove method reduces the size of the list and confuses things
         }
 
 
@@ -202,19 +208,22 @@ public class JetAgent {
     }
 
 
+    // This method returns the name of the airline (from the records in the JetRecord list) that provides the
+    // cheapest rates to the most destinations in the destinationRecord array that is passed to it
+
     public static String searchMostValuableAirline(ArrayList<JetRecord> list, DestinationRecord[] destinations) {
         String ans = null;
         String[] airlines = new String[destinations.length];
-        int[] count = new int[destinations.length];
+        int[] count = new int[destinations.length];// conatins the number representing how many times the airline at that index provided the cheapest rates to a certain destination
 
         JetRecord temp = null;
 
         for (int i = 0; i < destinations.length; i++) {
 
             if (destinations[i].getCount() > 0) {
-                temp = searchCheapestJetsByDestination(list, destinations[i].getName());
+                temp = searchCheapestJetsByDestination(list, destinations[i].getName()); // returns record that has cheapest rate to this destinatin
 
-                airlines[i] = temp.getAirline();
+                airlines[i] = temp.getAirline(); // gets the name of the airline from the record above
             }
         }
 
@@ -222,7 +231,9 @@ public class JetAgent {
 
 
             for (int j = 0; j < airlines.length; j++) {
-
+                // compares each airline that is the cheapest to a certain destination with every other airline
+                // if there is a match in airline names (indicating it provides cheap airlines to various destinations)
+                // we increment count at the index of such an airline
                 if (i != j) {
 
                     if (airlines[i].equals(airlines[j])) {
@@ -252,8 +263,11 @@ public class JetAgent {
 
     }
 
+    //The destinationIndex 2d arraylist is a more efficient means of storing data. The records
+    // are stored by grouping records with the same destination together.
+
     public void addJetRecordToDestinationIndex(JetRecord record) {
-        boolean destinationFound = false;
+        boolean found = false;
         if (destinationIndex.size() == 0) {
             destinationIndex.add(new ArrayList<JetRecord>());
 
@@ -262,12 +276,14 @@ public class JetAgent {
             for (int i = 0; i < destinationIndex.size(); i++) {
 
                 if (record.getDestination().equals(destinationIndex.get(i).get(0).getDestination())) {
+                    //we only checked the 0 index because all the records in the second dimension of destination index belong to the same destination
                     destinationIndex.get(i).add(record);
-                    destinationFound = true;
+                    found = true;
 
                 }
 
-                if (!destinationFound) {
+                if (!found) {
+                    //we come in this block if the destinationIndex 2d Arraylist doesn't have the destination that this record has information for
                     destinationIndex.add(new ArrayList<JetRecord>());
                     destinationIndex.get(destinationIndex.size() - 1).add(record);
 
