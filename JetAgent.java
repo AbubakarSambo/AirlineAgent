@@ -1,9 +1,7 @@
 import java.awt.image.Kernel;
 import java.util.*;
 
-// Find a list of private Jet rental Airlines to n from mtl
-//for each airline, records cheapest rentals from mtl to anywhere on earth
-//maintains n periodically updates list of airlines and associated cheap rentals per airline in a program
+
 
 
 public class JetAgent {
