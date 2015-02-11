@@ -15,7 +15,7 @@ public class JetAgent {
     private ArrayList<ArrayList<JetRecord>> destinationIndex;
 
 
-    //add constructor
+    //add constructor to initialize Jet agent properties
     public JetAgent() {
         jetRentals = new ArrayList<JetRecord>(MAX_DESTINTATION);
         destinations = new DestinationRecord[MAX_DESTINTATION];
@@ -24,64 +24,71 @@ public class JetAgent {
 
     //add methods
 
-    /* public static void main(String[] args) {
+    public static void main(String[] args) {
 
-         //instantiate a JetAgent object
-         JetAgent newAgent = new JetAgent();
-         //instantiate a Scanner object to get user input
-         Scanner keyboard = new Scanner(System.in);
-
-
-         while (true) {
-             //add try
-             try {
-
-                 System.out.println("Enter a number 1 to add a jet record, 2 to delete jet records, -1 to exit the program.");
-                 //read an int from the user, then use if-statement
-                 int input = keyboard.nextInt();
-                 //if the user types 1
-                 //get user input to insert a jet record, refer to the addJetRecord method
-                 if (input == 1) {
-                     System.out.println("Enter airline: ");
-                     String a = keyboard.next();
-                     System.out.println("Enter Destination: ");
-                     String b = keyboard.next();
-                     System.out.println("Enter Rental Price: ");
-                     int c = keyboard.nextInt();
-
-                     JetRecord jr = new JetRecord(a, b, c);
-
-                     newAgent.addJetRecord(jr);
-                 }
-                 //if the user types 2
-                 //get user input to delete jet records, refer to the deleteJetRecord method
-                 else if (input == 2) {
-                     System.out.println("Enter airline: ");
-                     String h = keyboard.next();
-                     System.out.println("Enter destination: ");
-                     String i = keyboard.next();
-
-                     newAgent.deleteJetRecord(h, i);
-                 }
-                 //if the user types -1
-                 //exit the program
-                 else if (input == -1) {
+        //instantiate a JetAgent object
+        JetAgent newAgent = new JetAgent();
+        //instantiate a Scanner object to get user input
+        Scanner keyboard = new Scanner(System.in);
 
 
-                     break;
-                 }
-                 //all other inputs
-                 //Pint a message to user saying ("Invalid choice, try again!");
+        while (true) {
+            //add try
+            try {
 
-                 else
-                     System.out.println("Invalid choice, try again!");
-             } catch (Exception e) {
-                 //add catch
-                 e.printStackTrace();
-             }
-         }
-     }
- */
+                System.out.println("Enter a number 1 to add a jet record, 2 to delete jet records, -1 to exit the program.");
+                //read an int from the user, then use if-statement
+                int input = keyboard.nextInt();
+                //if the user types 1
+                //get user input to insert a jet record, refer to the addJetRecord method
+                if (input == 1) {
+                    System.out.println("Enter airline: ");
+                    String a = keyboard.next();
+                    System.out.println("Enter Destination: ");
+                    String b = keyboard.next();
+                    System.out.println("Enter Rental Price: ");
+                    int c = keyboard.nextInt();
+
+                    JetRecord jr = new JetRecord(a, b, c);
+
+                    newAgent.addJetRecord(jr);
+                }
+                //if the user types 2
+                //get user input to delete jet records, refer to the deleteJetRecord method
+                else if (input == 2) {
+                    System.out.println("Enter airline: ");
+                    String h = keyboard.next();
+                    System.out.println("Enter destination: ");
+                    String i = keyboard.next();
+
+                    newAgent.deleteJetRecord(h, i);
+                }
+                //if the user types -1
+                //exit the program
+                else if (input == -1) {
+
+
+                    break;
+                }
+                //all other inputs
+                //Pint a message to user saying ("Invalid choice, try again!");
+
+                else
+                    System.out.println("Invalid choice, try again!");
+            } catch (Exception e) {
+                //add catch
+                e.printStackTrace();
+                break;
+            }
+        }
+    }
+
+
+    // this method adds a record (as defined in the Jet record class)
+    //to a JetAgent property arraylist and updates
+    //an array containing all destination.
+    // if the destination contained in the record has been previously added(hence exists in the destinations array),
+    // the method increases the count
     public void addJetRecord(JetRecord record) {
         this.jetRentals.add(record);
 
@@ -310,14 +317,12 @@ public class JetAgent {
         }
 
 
-
         return ans;
 
     }
 
 
-
-    public  void addJetRecordToDestinationIndexNew(JetRecord record){
+    public void addJetRecordToDestinationIndexNew(JetRecord record) {
 
         boolean destinationFound = false;
         if (destinationIndex.size() == 0) {
@@ -343,13 +348,7 @@ public class JetAgent {
             }
 
 
-
     }
-
-
-
-
-
 
 
 }
